@@ -764,7 +764,7 @@
       </div>
       <div class="contact-item">
         <p class="contact-item-label">Phone</p>
-        <p class="contact-item-val">+91 9663249339</p>
+        <p class="contact-item-val">+91 XXXXX XXXXX</p>
       </div>
       <div class="contact-item">
         <p class="contact-item-label">Languages</p>
@@ -935,4 +935,13 @@
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ── INIT ── */
+  loadGallery();
+</script>
+
+</body>
+</html>
