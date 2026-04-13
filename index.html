@@ -182,11 +182,11 @@
       border: 1.5px dashed rgba(184,116,42,0.5);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: 0.7rem; cursor: pointer;
+      gap: 0.7rem;
       transition: border-color 0.3s, background 0.3s;
       position: relative; overflow: hidden;
     }
-    .profile-photo:hover { border-color: var(--gold); background: rgba(184,116,42,0.08); }
+    /* profile photo: static, not interactive */
     .profile-photo svg { width: 40px; opacity: 0.35; }
     .profile-photo p {
       font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
@@ -526,13 +526,12 @@
 
       <!-- Profile photo -->
       <div class="profile-wrap reveal">
-        <div class="profile-photo" id="photoBox" title="Click to upload your photo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5">
+        <div class="profile-photo" id="photoBox">
+          <svg id="profilePlaceholderIcon" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
           </svg>
-          <p>Click to add<br/>your photo</p>
-          <input type="file" accept="image/*" id="photoInput" onchange="loadPhoto(event)"/>
+          <p id="profilePlaceholderText">Add a photo named<br/><code style="font-size:0.75rem;opacity:0.6">profile.jpg</code><br/>to your gallery folder</p>
           <img id="profileImg" alt="Shivanand Halagatti"/>
         </div>
         <p class="profile-name">Shivanand B. Halagatti</p>
@@ -755,10 +754,6 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
         Email Me
       </a>
-      <a href="https://github.com/yourusername" target="_blank" class="contact-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 5.4 18.3 5.7 18.3 5.7c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C20.2 21.4 23.5 17.1 23.5 12 23.5 5.7 18.3.5 12 .5z"/></svg>
-        GitHub
-      </a>
     </div>
 
     <div class="contact-details">
@@ -783,7 +778,7 @@
   <p>© 2025 Shivanand B. Halagatti <span>·</span> Nargund, Karnataka <span>·</span> Educator &amp; Nature Photographer</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   /* ════════════════════════════════════════════════════════
      ▼▼▼  ONLY TWO LINES TO CHANGE WHEN SETTING UP  ▼▼▼
      ════════════════════════════════════════════════════════
@@ -814,28 +809,25 @@
   function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
   function closeMenu()  { document.getElementById('navLinks').classList.remove('open'); }
 
-  /* ── PROFILE PHOTO UPLOAD ── */
-  function loadPhoto(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = document.getElementById('profileImg');
-      img.src = ev.target.result;
-      img.style.display = 'block';
-      document.querySelector('#photoBox svg').style.display = 'none';
-      document.querySelector('#photoBox p').style.display  = 'none';
-    };
-    reader.readAsDataURL(file);
-  }
-
   /* ── GALLERY: fetch from GitHub API ── */
   function fileToCaption(filename) {
-    // "golden_hour_river.jpg"  →  "Golden Hour River"
     return filename
-      .replace(/\.[^.]+$/, '')          // strip extension
-      .replace(/[-_]/g, ' ')            // dashes/underscores → spaces
-      .replace(/\b\w/g, c => c.toUpperCase()); // Title Case
+      .replace(/\.[^.]+$/, '')
+      .replace(/[-_]/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function isProfileFile(filename) {
+    // Matches: profile.jpg, Profile.PNG, profile-pic.jpg, profile_photo.webp, etc.
+    return /^profile[.\-_]/i.test(filename);
+  }
+
+  function setProfilePhoto(src) {
+    const img  = document.getElementById('profileImg');
+    img.src    = src;
+    img.style.display = 'block';
+    document.getElementById('profilePlaceholderIcon').style.display = 'none';
+    document.getElementById('profilePlaceholderText').style.display = 'none';
   }
 
   function buildGalleryItem(src, caption, idx) {
@@ -855,7 +847,6 @@
     const error   = document.getElementById('gallery-error');
     const grid    = document.getElementById('gallery');
 
-    // Don't try to fetch if the user hasn't filled in the config yet
     if (GITHUB_USER === "YOUR_GITHUB_USERNAME") {
       loading.style.display = 'none';
       error.style.display   = 'block';
@@ -870,30 +861,30 @@
 
       const files = await res.json();
 
-      // Filter to image files only
-      const imageFiles = files.filter(f =>
+      // Separate profile image from gallery images
+      const profileFile = files.find(f => f.type === 'file' && isProfileFile(f.name));
+      const imageFiles  = files.filter(f =>
         f.type === 'file' &&
+        !isProfileFile(f.name) &&
         IMAGE_EXTS.includes(f.name.split('.').pop().toLowerCase())
       );
 
-      if (imageFiles.length === 0) throw new Error('No images found');
+      // Wire up profile photo if found
+      if (profileFile) setProfilePhoto(profileFile.download_url);
 
-      // Build the images array for lightbox
+      if (imageFiles.length === 0) throw new Error('No gallery images found');
+
       galleryImages = imageFiles.map(f => ({
         src:     f.download_url,
         caption: fileToCaption(f.name)
       }));
 
-      // Render cards
       imageFiles.forEach((f, idx) => {
         grid.appendChild(buildGalleryItem(f.download_url, fileToCaption(f.name), idx));
       });
 
-      // Show grid, hide spinner
       loading.style.display = 'none';
       grid.style.display    = '';
-
-      // Trigger scroll-reveal on new elements
       grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     } catch (err) {
@@ -941,11 +932,3 @@
       }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  /* ── INIT ── */
-  loadGallery();
-</script>
-
-</body>
-</html>
