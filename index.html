@@ -483,6 +483,7 @@
       section { padding: 5rem 0; }
     }
   </style>
+  <link rel="icon" id="favicon" type="image/png" href=""/>
 </head>
 <body>
 
@@ -750,7 +751,7 @@
     <p class="contact-sub">Open to teaching opportunities, collaborations, or just a conversation about language and nature photography.</p>
 
     <div class="contact-links">
-      <a href="mailto:shivanandhalagatti22@gmail.com" class="contact-btn">
+      <a href="/cdn-cgi/l/email-protection#b9cad1d0cfd8d7d8d7ddd1d8d5d8ded8cdcdd08b8bf9ded4d8d0d597dad6d4" class="contact-btn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
         Email Me
       </a>
@@ -778,7 +779,7 @@
   <p>© 2025 Shivanand B. Halagatti <span>·</span> Nargund, Karnataka <span>·</span> Educator &amp; Nature Photographer</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   /* ════════════════════════════════════════════════════════
      ▼▼▼  ONLY TWO LINES TO CHANGE WHEN SETTING UP  ▼▼▼
      ════════════════════════════════════════════════════════
@@ -828,6 +829,9 @@
     img.style.display = 'block';
     document.getElementById('profilePlaceholderIcon').style.display = 'none';
     document.getElementById('profilePlaceholderText').style.display = 'none';
+
+    // Also set as the browser tab icon
+    document.getElementById('favicon').href = src;
   }
 
   function buildGalleryItem(src, caption, idx) {
@@ -931,13 +935,4 @@
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  /* ── INIT ── */
-  loadGallery();
-</script>
-
-</body>
-</html>
+  }, { threshold: 0
