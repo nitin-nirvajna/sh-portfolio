@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shivanand B. Halagatti — Educator & Nature Photographer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1c1c1a;
+      --paper:     #f4efe6;
+      --cream:     #ede7da;
+      --green:     #2a4a1e;
+      --green-mid: #3d6b2c;
+      --gold:      #b8742a;
+      --gold-lt:   #d4954d;
+      --muted:     #7a7269;
+      --white:     #ffffff;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'DM Sans', sans-serif;
+      --ease:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: transparent;
+      transition: background 0.4s var(--ease), box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(28, 28, 26, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.3);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--gold-lt); }
+
+    /* hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--white); transition: 0.3s; }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      height: 100vh; min-height: 640px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1800&q=80') center/cover no-repeat;
+      transform: scale(1.06);
+      transition: transform 8s var(--ease);
+      filter: brightness(0.42);
+    }
+    #hero:hover .hero-bg { transform: scale(1.01); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(28,28,26,0.2) 0%, rgba(28,28,26,0.7) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      text-align: center; padding: 0 2rem;
+      animation: heroFade 1.4s var(--ease) both;
+    }
+    @keyframes heroFade {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold-lt); margin-bottom: 1.2rem;
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--white); margin-bottom: 1rem;
+    }
+    .hero-name em { font-style: italic; color: var(--gold-lt); }
+    .hero-tagline {
+      font-family: var(--serif);
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-weight: 300; font-style: italic;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 0.75rem 2.4rem;
+      border: 1px solid rgba(255,255,255,0.45);
+      color: var(--white);
+      font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .hero-cta:hover { background: var(--gold); border-color: var(--gold); }
+    .hero-scroll {
+      position: absolute; bottom: 2.4rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      animation: bounce 2.5s ease-in-out infinite;
+    }
+    .hero-scroll svg { width: 18px; opacity: 0.5; }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 7rem 0; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 2.5rem; }
+    .section-label {
+      font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300; line-height: 1.15;
+      color: var(--green); margin-bottom: 3rem;
+    }
+    .section-title em { font-style: italic; }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--ink); color: var(--white); }
+    #about .section-title { color: var(--paper); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 5rem; align-items: start;
+    }
+
+    /* profile photo placeholder */
+    .profile-wrap {
+      position: sticky; top: 6rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+    }
+    .profile-photo {
+      width: 260px; height: 300px;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px dashed rgba(184,116,42,0.5);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.7rem; cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .profile-photo:hover { border-color: var(--gold); background: rgba(184,116,42,0.08); }
+    .profile-photo svg { width: 40px; opacity: 0.35; }
+    .profile-photo p {
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); text-align: center; padding: 0 1rem;
+    }
+    .profile-photo input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+    .profile-photo img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; display: none;
+    }
+    .profile-name {
+      font-family: var(--serif); font-size: 1.1rem; font-weight: 400;
+      color: var(--white); text-align: center; letter-spacing: 0.04em;
+    }
+    .profile-role {
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold-lt); text-align: center;
+    }
+
+    /* about text */
+    .about-text { padding-top: 0.5rem; }
+    .about-text p {
+      font-size: 1.05rem; line-height: 1.85;
+      color: rgba(255,255,255,0.72); margin-bottom: 1.6rem;
+      font-weight: 300;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-quote {
+      border-left: 2px solid var(--gold);
+      padding: 0.8rem 0 0.8rem 1.6rem;
+      margin: 2.5rem 0;
+    }
+    .about-quote p {
+      font-family: var(--serif); font-size: 1.35rem; font-style: italic;
+      font-weight: 300; line-height: 1.6;
+      color: rgba(255,255,255,0.85) !important;
+      margin-bottom: 0 !important;
+    }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+    .tag {
+      padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .tag:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
+
+    /* ─── EXPERIENCE & EDUCATION ─── */
+    #experience { background: var(--cream); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+    .col-title {
+      font-family: var(--serif); font-size: 1.6rem; font-weight: 300;
+      color: var(--green); margin-bottom: 2rem;
+      padding-bottom: 0.8rem; border-bottom: 1px solid rgba(42,74,30,0.18);
+    }
+
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: flex; gap: 1.4rem;
+      padding-bottom: 2.4rem; position: relative;
+    }
+    .timeline-item:not(:last-child)::before {
+      content: '';
+      position: absolute; left: 9px; top: 24px; bottom: 0;
+      width: 1px; background: rgba(42,74,30,0.2);
+    }
+    .timeline-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid var(--green-mid);
+      background: var(--cream);
+      flex-shrink: 0; margin-top: 2px;
+      transition: background 0.3s;
+    }
+    .timeline-item:hover .timeline-dot { background: var(--gold); border-color: var(--gold); }
+    .timeline-body {}
+    .timeline-period {
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500; margin-bottom: 0.3rem;
+    }
+    .timeline-role {
+      font-family: var(--serif); font-size: 1.15rem; font-weight: 600;
+      color: var(--ink); margin-bottom: 0.15rem; line-height: 1.3;
+    }
+    .timeline-org {
+      font-size: 0.8rem; color: var(--muted); margin-bottom: 0.7rem;
+      font-style: italic;
+    }
+    .timeline-desc {
+      font-size: 0.88rem; line-height: 1.75; color: #4a4640;
+    }
+
+    .edu-card {
+      padding: 1.4rem 0;
+      border-bottom: 1px solid rgba(42,74,30,0.1);
+    }
+    .edu-card:last-child { border-bottom: none; }
+    .edu-degree {
+      font-family: var(--serif); font-size: 1.1rem; font-weight: 600;
+      color: var(--ink); margin-bottom: 0.2rem;
+    }
+    .edu-inst { font-size: 0.82rem; color: var(--muted); font-style: italic; margin-bottom: 0.4rem; }
+    .edu-meta { display: flex; gap: 1rem; }
+    .edu-badge {
+      font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.22rem 0.65rem;
+      background: rgba(42,74,30,0.08);
+      color: var(--green); border-radius: 2px; font-weight: 500;
+    }
+
+    /* ─── PHOTOGRAPHY ─── */
+    #photography { background: var(--ink); }
+    #photography .section-label { }
+    #photography .section-title { color: var(--paper); }
+    .gallery-intro {
+      font-size: 1.05rem; line-height: 1.8; font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      max-width: 600px; margin-bottom: 3.5rem;
+    }
+
+    /* masonry grid */
+    .gallery-grid {
+      columns: 3; column-gap: 12px;
+    }
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      position: relative; overflow: hidden;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      display: block; width: 100%;
+      transition: transform 0.5s var(--ease), filter 0.4s;
+      filter: brightness(0.88) saturate(0.9);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.04);
+      filter: brightness(1) saturate(1.1);
+    }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(28,28,26,0.7) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.35s;
+      display: flex; align-items: flex-end; padding: 1rem;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-caption {
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(10,10,8,0.96);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox img {
+      max-width: 90vw; max-height: 88vh;
+      object-fit: contain;
+      box-shadow: 0 0 80px rgba(0,0,0,0.7);
+      transform: scale(0.92);
+      transition: transform 0.35s var(--ease);
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lb-close {
+      position: absolute; top: 1.5rem; right: 1.8rem;
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.5); font-size: 1.8rem;
+      transition: color 0.2s;
+    }
+    .lb-close:hover { color: var(--white); }
+    .lb-prev, .lb-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.4); font-size: 2.5rem;
+      padding: 1rem; transition: color 0.2s;
+    }
+    .lb-prev:hover, .lb-next:hover { color: var(--white); }
+    .lb-prev { left: 1rem; }
+    .lb-next { right: 1rem; }
+    .lb-counter {
+      position: absolute; bottom: 1.4rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ─── SKILLS ─── */
+    #skills { background: var(--paper); }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .skill-card {
+      padding: 2rem;
+      background: var(--cream);
+      border-top: 3px solid var(--green);
+      transition: transform 0.3s var(--ease), box-shadow 0.3s;
+    }
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(28,28,26,0.1);
+    }
+    .skill-icon { font-size: 1.6rem; margin-bottom: 1rem; }
+    .skill-title {
+      font-family: var(--serif); font-size: 1.15rem; font-weight: 600;
+      color: var(--green); margin-bottom: 0.6rem;
+    }
+    .skill-desc { font-size: 0.85rem; line-height: 1.75; color: var(--muted); }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--green);
+      padding: 6rem 0; text-align: center;
+    }
+    #contact .section-label { color: rgba(255,255,255,0.5); }
+    #contact .section-title { color: var(--paper); margin-bottom: 1.2rem; }
+    .contact-sub {
+      font-size: 1rem; color: rgba(255,255,255,0.55);
+      font-weight: 300; margin-bottom: 3rem;
+    }
+    .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    .contact-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white); text-decoration: none;
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .contact-btn:hover { background: var(--gold); border-color: var(--gold); }
+    .contact-details {
+      margin-top: 3rem;
+      display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+    }
+    .contact-item { text-align: center; }
+    .contact-item-label {
+      font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); margin-bottom: 0.3rem;
+    }
+    .contact-item-val {
+      font-family: var(--serif); font-size: 1rem;
+      color: rgba(255,255,255,0.8); font-style: italic;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+    }
+    footer span { color: rgba(255,255,255,0.1); margin: 0 0.5rem; }
+
+    /* ─── GALLERY SPINNER ─── */
+    .spinner {
+      width: 32px; height: 32px; margin: 0 auto;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── FADE IN ON SCROLL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.8rem; }
+      .nav-links { display: none; position: fixed; inset: 0; background: rgba(28,28,26,0.97);
+        flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
+      .nav-links.open { display: flex; }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .profile-wrap { position: static; }
+      .two-col { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { columns: 2; }
+    }
+    @media (max-width: 560px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .gallery-grid { columns: 1; }
+      section { padding: 5rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">S · B · H</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about" onclick="closeMenu()">About</a></li>
+    <li><a href="#experience" onclick="closeMenu()">Experience</a></li>
+    <li><a href="#photography" onclick="closeMenu()">Photography</a></li>
+    <li><a href="#skills" onclick="closeMenu()">Skills</a></li>
+    <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Educator &nbsp;·&nbsp; Author &nbsp;·&nbsp; Nature Photographer</p>
+    <h1 class="hero-name">Shivanand B.<br><em>Halagatti</em></h1>
+    <p class="hero-tagline">Finding beauty in language and in the wild.</p>
+    <a href="#about" class="hero-cta">Discover My Work</a>
+  </div>
+  <div class="hero-scroll">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- Profile photo -->
+      <div class="profile-wrap reveal">
+        <div class="profile-photo" id="photoBox" title="Click to upload your photo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+          <p>Click to add<br/>your photo</p>
+          <input type="file" accept="image/*" id="photoInput" onchange="loadPhoto(event)"/>
+          <img id="profileImg" alt="Shivanand Halagatti"/>
+        </div>
+        <p class="profile-name">Shivanand B. Halagatti</p>
+        <p class="profile-role">Educator &amp; Photographer</p>
+      </div>
+
+      <!-- Text -->
+      <div class="about-text">
+        <p class="section-label reveal">About Me</p>
+        <h2 class="section-title reveal" style="color:var(--paper)">A life spent in <em>words</em><br>and in the wild.</h2>
+
+        <p class="reveal reveal-delay-1">
+          I am a Hindi language educator from Nargund, Karnataka, with over a decade of experience
+          teaching at high schools, government institutions, and degree colleges. Holding a B.Ed and
+          an MA in Hindi, I have guided students across multiple boards and institutions — from the
+          Navodaya Vidyalaya system to private colleges in the Gadag district.
+        </p>
+        <p class="reveal reveal-delay-2">
+          But beyond the classroom, I am a hobbyist photographer with a deep love for the
+          natural world. My camera is my second language — one I use to speak about Karnataka's
+          forests, its skies, its insects, and its quiet country roads.
+        </p>
+
+        <div class="about-quote reveal reveal-delay-2">
+          <p>"Every frame is a lesson in stillness and attention."</p>
+        </div>
+
+        <p class="reveal reveal-delay-3">
+          I am based in Nargund, Gadag District — a town surrounded by the northern Karnataka
+          landscape that has endlessly inspired both my teaching philosophy and my photography.
+        </p>
+
+        <div class="about-tags reveal reveal-delay-3">
+          <span class="tag">Hindi Literature</span>
+          <span class="tag">Pedagogy</span>
+          <span class="tag">Nature Photography</span>
+          <span class="tag">Karnataka</span>
+          <span class="tag">Wildlife</span>
+          <span class="tag">Landscape</span>
+          <span class="tag">CBSE</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE & EDUCATION ── -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label reveal">Career</p>
+    <h2 class="section-title reveal">Experience &amp; <em>Education</em></h2>
+
+    <div class="two-col">
+
+      <!-- Experience -->
+      <div class="reveal">
+        <h3 class="col-title">Professional Experience</h3>
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-body">
+              <p class="timeline-period">Feb 2011 – Present</p>
+              <p class="timeline-role">Lecturer, Hindi</p>
+              <p class="timeline-org">Shri Yadeyur Shiddalingeshwar Education College, Nargund · Dist: Gadag</p>
+              <p class="timeline-desc">Delivered lectures in Hindi language and literature to B.Ed students. Supported academic planning and mentored students in their teaching practice.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-body">
+              <p class="timeline-period">Jun 2009 – Nov 2009</p>
+              <p class="timeline-role">TGT Hindi Teacher</p>
+              <p class="timeline-org">Jawahar Navodaya Vidyalaya, Narayanapur · Dist: Bidar (Govt. of India)</p>
+              <p class="timeline-desc">Taught Hindi at the secondary level under the CBSE curriculum to students at one of India's premier government residential schools.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-body">
+              <p class="timeline-period">Jun 2007 – May 2009</p>
+              <p class="timeline-role">Hindi Teacher</p>
+              <p class="timeline-org">Rotract Kannada Medium High School, Nargund</p>
+              <p class="timeline-desc">Taught Hindi at the high school level. Developed lesson plans, conducted assessments, and participated in school events and activities.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="reveal reveal-delay-1">
+        <h3 class="col-title">Education</h3>
+
+        <div class="edu-card">
+          <p class="edu-degree">MA (Hindi)</p>
+          <p class="edu-inst">Karnataka State Open University, Mysore</p>
+          <div class="edu-meta">
+            <span class="edu-badge">Second Class</span>
+            <span class="edu-badge">2009 – 2010</span>
+          </div>
+        </div>
+
+        <div class="edu-card">
+          <p class="edu-degree">B.Ed</p>
+          <p class="edu-inst">B.S. Yaligar College, Munavalli</p>
+          <div class="edu-meta">
+            <span class="edu-badge">First Class</span>
+            <span class="edu-badge">2005 – 2006</span>
+          </div>
+        </div>
+
+        <div class="edu-card">
+          <p class="edu-degree">B.A.</p>
+          <p class="edu-inst">S.S.G.F. College, Nargund</p>
+          <div class="edu-meta">
+            <span class="edu-badge">First Class</span>
+            <span class="edu-badge">2004 – 2005</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PHOTOGRAPHY ── -->
+<section id="photography">
+  <div class="container">
+    <p class="section-label reveal">Portfolio</p>
+    <h2 class="section-title reveal">Through the <em>Lens</em></h2>
+    <p class="gallery-intro reveal">
+      Nature photography is how I practise patience. These images are from the
+      landscapes, forests, and skies of Karnataka and beyond — moments the eye
+      blinks past that the camera holds forever.
+    </p>
+
+    <!-- Gallery state messages -->
+    <div id="gallery-loading" style="text-align:center;padding:3rem 0;color:rgba(255,255,255,0.35);">
+      <div class="spinner"></div>
+      <p style="margin-top:1rem;font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;">Loading gallery…</p>
+    </div>
+    <div id="gallery-error" style="display:none;text-align:center;padding:3rem 0;">
+      <p style="font-family:var(--serif);font-size:1.2rem;font-style:italic;color:rgba(255,255,255,0.4);">Gallery images will appear here once photos are added to the <code style="font-style:normal;font-size:0.85rem;background:rgba(255,255,255,0.07);padding:0.15rem 0.45rem;">gallery/</code> folder on GitHub.</p>
+    </div>
+
+    <div class="gallery-grid" id="gallery" style="display:none;"></div>
+  </div>
+</section>
+
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">&#x2715;</button>
+  <button class="lb-prev" onclick="shiftLightbox(-1)">&#x2039;</button>
+  <img id="lbImg" src="" alt=""/>
+  <button class="lb-next" onclick="shiftLightbox(1)">&#x203a;</button>
+  <p class="lb-counter" id="lbCounter"></p>
+</div>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label reveal">What I Bring</p>
+    <h2 class="section-title reveal">Skills &amp; <em>Strengths</em></h2>
+    <div class="skills-grid">
+
+      <div class="skill-card reveal">
+        <div class="skill-icon">📖</div>
+        <h4 class="skill-title">Hindi Language & Literature</h4>
+        <p class="skill-desc">MA-level expertise in Hindi language, grammar, and literature. Able to teach across school and college levels in both curriculum and enrichment contexts.</p>
+      </div>
+
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-icon">🎓</div>
+        <h4 class="skill-title">Pedagogy & Classroom Practice</h4>
+        <p class="skill-desc">Formal B.Ed qualification with hands-on experience across CBSE and Karnataka State Board schools. Skilled in lesson planning, student assessment, and inclusive instruction.</p>
+      </div>
+
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-icon">📷</div>
+        <h4 class="skill-title">Nature Photography</h4>
+        <p class="skill-desc">Hobbyist photographer specialising in landscapes, flora, fauna, and macro photography in and around the Western Ghats and Northern Karnataka.</p>
+      </div>
+
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <h4 class="skill-title">Multilingual Communication</h4>
+        <p class="skill-desc">Fluent in Kannada (native), Hindi (expert), and working proficiency in English. Comfortable communicating with diverse student and parent communities.</p>
+      </div>
+
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-icon">🏛️</div>
+        <h4 class="skill-title">Government School Systems</h4>
+        <p class="skill-desc">Experience within the Navodaya Vidyalaya Samiti ecosystem — one of India's most prestigious central government school chains.</p>
+      </div>
+
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-icon">🤝</div>
+        <h4 class="skill-title">Mentorship & Guidance</h4>
+        <p class="skill-desc">A patient, empathetic approach to student development with a focus on building confidence, curiosity, and a lifelong love of language.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Let's <em>Connect</em></h2>
+    <p class="contact-sub">Open to teaching opportunities, collaborations, or just a conversation about language and nature photography.</p>
+
+    <div class="contact-links">
+      <a href="mailto:your.email@example.com" class="contact-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        Email Me
+      </a>
+      <a href="https://github.com/yourusername" target="_blank" class="contact-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.4-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 5.4 18.3 5.7 18.3 5.7c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C20.2 21.4 23.5 17.1 23.5 12 23.5 5.7 18.3.5 12 .5z"/></svg>
+        GitHub
+      </a>
+    </div>
+
+    <div class="contact-details">
+      <div class="contact-item">
+        <p class="contact-item-label">Location</p>
+        <p class="contact-item-val">Nargund, Gadag District, Karnataka</p>
+      </div>
+      <div class="contact-item">
+        <p class="contact-item-label">Phone</p>
+        <p class="contact-item-val">+91 XXXXX XXXXX</p>
+      </div>
+      <div class="contact-item">
+        <p class="contact-item-label">Languages</p>
+        <p class="contact-item-val">Kannada · Hindi · English</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2025 Shivanand B. Halagatti <span>·</span> Nargund, Karnataka <span>·</span> Educator &amp; Nature Photographer</p>
+</footer>
+
+<script>
+  /* ════════════════════════════════════════════════════════
+     ▼▼▼  ONLY TWO LINES TO CHANGE WHEN SETTING UP  ▼▼▼
+     ════════════════════════════════════════════════════════
+     Replace the values below with Shivanand's GitHub
+     username and the exact name of the repository.
+
+     Example:
+       GITHUB_USER = "shivanand-halagatti"
+       GITHUB_REPO = "my-portfolio"
+     ════════════════════════════════════════════════════════ */
+  const GITHUB_USER = "YOUR_GITHUB_USERNAME";   // ← change this
+  const GITHUB_REPO = "YOUR_REPO_NAME";         // ← change this
+  /* ════════════════════════════════════════════════════════
+     Everything below runs automatically. No more editing!
+     ════════════════════════════════════════════════════════ */
+
+  const IMAGE_EXTS = ['jpg','jpeg','png','webp','gif','avif'];
+  let galleryImages = [];   // populated after API fetch
+  let currentIdx   = 0;
+
+  /* ── NAV SCROLL ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* ── HAMBURGER ── */
+  function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+  function closeMenu()  { document.getElementById('navLinks').classList.remove('open'); }
+
+  /* ── PROFILE PHOTO UPLOAD ── */
+  function loadPhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = document.getElementById('profileImg');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+      document.querySelector('#photoBox svg').style.display = 'none';
+      document.querySelector('#photoBox p').style.display  = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /* ── GALLERY: fetch from GitHub API ── */
+  function fileToCaption(filename) {
+    // "golden_hour_river.jpg"  →  "Golden Hour River"
+    return filename
+      .replace(/\.[^.]+$/, '')          // strip extension
+      .replace(/[-_]/g, ' ')            // dashes/underscores → spaces
+      .replace(/\b\w/g, c => c.toUpperCase()); // Title Case
+  }
+
+  function buildGalleryItem(src, caption, idx) {
+    const div = document.createElement('div');
+    div.className = 'gallery-item reveal';
+    div.onclick = () => openLightbox(idx);
+    div.innerHTML = `
+      <img src="${src}" alt="${caption}" loading="lazy"/>
+      <div class="gallery-overlay">
+        <span class="gallery-caption">${caption}</span>
+      </div>`;
+    return div;
+  }
+
+  async function loadGallery() {
+    const loading = document.getElementById('gallery-loading');
+    const error   = document.getElementById('gallery-error');
+    const grid    = document.getElementById('gallery');
+
+    // Don't try to fetch if the user hasn't filled in the config yet
+    if (GITHUB_USER === "YOUR_GITHUB_USERNAME") {
+      loading.style.display = 'none';
+      error.style.display   = 'block';
+      return;
+    }
+
+    try {
+      const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/gallery`;
+      const res    = await fetch(apiUrl, { headers: { 'Accept': 'application/vnd.github.v3+json' } });
+
+      if (!res.ok) throw new Error(`GitHub API returned ${res.status}`);
+
+      const files = await res.json();
+
+      // Filter to image files only
+      const imageFiles = files.filter(f =>
+        f.type === 'file' &&
+        IMAGE_EXTS.includes(f.name.split('.').pop().toLowerCase())
+      );
+
+      if (imageFiles.length === 0) throw new Error('No images found');
+
+      // Build the images array for lightbox
+      galleryImages = imageFiles.map(f => ({
+        src:     f.download_url,
+        caption: fileToCaption(f.name)
+      }));
+
+      // Render cards
+      imageFiles.forEach((f, idx) => {
+        grid.appendChild(buildGalleryItem(f.download_url, fileToCaption(f.name), idx));
+      });
+
+      // Show grid, hide spinner
+      loading.style.display = 'none';
+      grid.style.display    = '';
+
+      // Trigger scroll-reveal on new elements
+      grid.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    } catch (err) {
+      console.warn('Gallery load failed:', err.message);
+      loading.style.display = 'none';
+      error.style.display   = 'block';
+    }
+  }
+
+  /* ── LIGHTBOX ── */
+  function openLightbox(idx) {
+    currentIdx = idx;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function shiftLightbox(dir) {
+    currentIdx = (currentIdx + dir + galleryImages.length) % galleryImages.length;
+    updateLightbox();
+  }
+  function updateLightbox() {
+    document.getElementById('lbImg').src        = galleryImages[currentIdx].src;
+    document.getElementById('lbCounter').textContent = `${currentIdx + 1} / ${galleryImages.length}`;
+  }
+  document.getElementById('lightbox').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeLightbox();
+  });
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape')      closeLightbox();
+    if (e.key === 'ArrowLeft')   shiftLightbox(-1);
+    if (e.key === 'ArrowRight')  shiftLightbox(1);
+  });
+
+  /* ── SCROLL REVEAL ── */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  /* ── INIT ── */
+  loadGallery();
+</script>
+
+</body>
+</html>
